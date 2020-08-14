@@ -24,8 +24,7 @@ public abstract class Disk {
     }
 
     public int getNoOfBlocks() {
-        return 10;
-        //return noOfBlocks;
+        return noOfBlocks;
     }
 
     private int getNumberofBlocks(){
