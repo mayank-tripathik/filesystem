@@ -13,7 +13,7 @@ Following are the various classes with their description:
 ### Flow
 
   - We first create the disk with a size and blocksize. This will mimic a mounting operation of disk of given size having fixed number of blocks. Number of blocks is calculated from disk size and blocksize.
-  - Before starting a FileSystem component, we need a strategy to access free blocks as and when needed by the file system. A Random strategy implementation is used here and is injected in the FileSystem constructor. In random strategy we keep a list of connected free blocks with use and we return a free block anywhere from the memory.
+  - Before starting a FileSystem component, we need a strategy to access free blocks as and when needed by the file system. A Random strategy implementation is used here and is injected in the FileSystem constructor. In random strategy we keep a list of connected free blocks and we return a free block anywhere from the memory.
   - A new Filesystem Object is then created to process file operation. FileSystemLinked is used here which is an implementation of Filesystem interface. It has to instantiate with the free space strategy and disk.
   - While creating the File, FileSystem stores the content of file in random blocks and connect these blocks together using nextLogicalBlock field of block. It fetches the free block from the given strategy. The first block will be stored against the File object and mapping of file name and file object will be saved in a map so that while reading a file, firs block of file can be retreived. 
   - Deleting a file will set all the linked blocks of that file as free to be used again. Block content is not set to null as it happens in real scenario. It is just tagged as free and will be overridden in disk write.
