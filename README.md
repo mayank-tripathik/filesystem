@@ -34,6 +34,7 @@ There are many many improvements that can be incorporated :
   - Making FreeSpaceStrategyRandom more faster as right now it is uing linked list to keep track of free blocks 
   - File model can be improved more
 
+Note : In the following class diagram not all methods and fields are added to classes. It is just created to get a basic flow at one glance.
 ![FileSystem Diagram](filesystem.png)
 
 
