@@ -28,6 +28,7 @@ There are many many improvements that can be incorporated :
   - Storing the current status of open files and their current seek position so that file can be repeteadly read from prev place.
   - Block class can be abstracted to a general class, say Node, so that we can extend it and form special blocks like superblock and index nodes.
   - Data about disk and metadata should be written to disk too in dedicated blocks and address of those blocks can be stored in a super block
+  - FileSystem should handle different files accordingly. For example right now it is text, but in future a image file may come, which should be read and written in different way. So FileHandler can be used inside Filesystem which will have different file handling implementation like TextFileHandler, ImageFileHandler and so on.
   - More exceptions should be added : For file permission etc
   - Adding owner functionality and access right related to files.
   - Making FreeSpaceStrategyRandom more faster as right now it is uing linked list to keep track of free blocks 
