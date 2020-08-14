@@ -22,7 +22,7 @@ public abstract class Disk {
     }
 
     public int getNoOfBlocks() {
-        return 20;
+        return noOfBlocks;
     }
 
     private int getNumberofBlocks(){

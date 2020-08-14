@@ -2,6 +2,7 @@ package models.filesystem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
@@ -10,6 +11,7 @@ import FileSystemException.FileNotFoundException;
 import FileSystemException.NotEnoughMemoryException;
 import models.Block;
 import models.File;
+import models.FileMetadata;
 import models.freespacestrategy.FreeSpaceStrategy;
 
 public class FileSystemLinked implements FileSystem {
@@ -36,10 +38,15 @@ public class FileSystemLinked implements FileSystem {
         byte[] contentBytes = content.getBytes();
         Block startBlock = divideAndStore(contentBytes);
         File newFile = new File();
+        FileMetadata fileMetadata = new FileMetadata();
+        Date currentTime = new Date();
+        fileMetadata.setCreationDate(currentTime);
+        fileMetadata.setUpdationDate(currentTime);
         newFile.setName(name);
         newFile.setStartBlock(startBlock);
+        newFile.setMetadata(fileMetadata);
         directory.put(name, newFile);
-        return null;
+        return newFile;
     }
 
     @Override
@@ -75,7 +82,6 @@ public class FileSystemLinked implements FileSystem {
             else
                 startBlock = freeBlock;
             prevFreeBlock = freeBlock;
-            System.out.println(blocks);
         }
         return startBlock;
     }
