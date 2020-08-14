@@ -9,7 +9,12 @@ import models.freespacestrategy.FreeSpaceStrategyRandom;
 
 public class FileDriver {
     public static void main(String[] args) {
+        // Mounting disk
+        // first param is memory size in MB, and second is block size in bytes
+        // No of blocks will be created accordingly in logical view of filesystem
         Disk disk = new HDisk(1,10);
+
+        // Uses disk to initiate its logical view of blocks
         FileSystem fileSystem = new FileSystemLinked(disk, new FreeSpaceStrategyRandom());
 
         // Creating file
