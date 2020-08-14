@@ -1,6 +1,6 @@
 # FileSystem
 Following are the various classes with their description:
-  - Disk : has api for read and writing to the blocks
+  - Disk : It is an abstract class. Has api for read and writing to the blocks and has common methods if any related to disk.
   - HDisk : Implementation of disk interface
   - FreeSpaceStrategy : Interface having apis to get nextfreeslot, addfreeslot 
   - FreeSpaceStrategyRandom : Implementation of FreeSpaceStrategy where free block is returned anywhere from the disk if present
