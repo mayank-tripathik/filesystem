@@ -12,21 +12,23 @@ import FileSystemException.NotEnoughMemoryException;
 import models.Block;
 import models.File;
 import models.FileMetadata;
+import models.disk.Disk;
 import models.freespacestrategy.FreeSpaceStrategy;
 
 public class FileSystemLinked implements FileSystem {
-
     List<Block> blocks;
     FreeSpaceStrategy freeSpaceStrategy;
     int blockSize;
     TreeMap<String,File> directory;
+    Disk disk;
 
-    public FileSystemLinked(int noOfBlocks, int blockSize, FreeSpaceStrategy freeSpaceStrategy) {
+    public FileSystemLinked(Disk disk, FreeSpaceStrategy freeSpaceStrategy) {
         this.blocks = new ArrayList<>();
+        this.disk = disk;
         this.freeSpaceStrategy = freeSpaceStrategy;
-        this.blockSize = blockSize;
+        this.blockSize = disk.getBlockSizeInBytes();
         this.directory = new TreeMap<>();
-        for(int i=0;i<noOfBlocks;i++){
+        for(int i=0;i<disk.getNoOfBlocks();i++){
             Block block = new Block();
             blocks.add(block);
             freeSpaceStrategy.addFreeBlock(block);
@@ -53,11 +55,39 @@ public class FileSystemLinked implements FileSystem {
     public String read(String name) throws FileNotFoundException {
         File file = directory.get(name);
         if(file == null){
-            throw new FileNotFoundException("File not found");
+            throw new FileNotFoundException("File not found:" + name);
         }
         Block startBlock = file.getStartBlock();
         String content = fetchFromStartBlock(startBlock);
         return content;
+    }
+
+    @Override
+    public void update(String name, String content) throws FileNotFoundException, NotEnoughMemoryException {
+        delete(name);
+        create(name, content);
+    }
+
+    @Override
+    public void delete(String name) throws FileNotFoundException {
+        File file = directory.get(name);
+        if(file == null){
+            throw new FileNotFoundException("File not found:" + name);
+        }
+        Block startBlock = file.getStartBlock();
+        freeLinkedBlocks(startBlock);
+        directory.remove(name);
+    }
+
+    private void freeLinkedBlocks(Block startBlock){
+        while (startBlock != null){
+            startBlock.setFree(true);
+            freeSpaceStrategy.addFreeBlock(startBlock);
+            Block prevBlock = startBlock;
+            startBlock = startBlock.getNextLogicalBlock();
+            prevBlock.setFree(true);
+            prevBlock.setNextLogicalBlock(null);
+        }
     }
 
     private Block divideAndStore(byte[] contentBytes) throws NotEnoughMemoryException{
@@ -75,8 +105,7 @@ public class FileSystemLinked implements FileSystem {
                 return null;
             }
             occupiedBlocks.add(freeBlock);
-            freeBlock.setContent(blockContent);
-            freeBlock.setFree(false);
+            disk.write(freeBlock, blockContent);
             if(prevFreeBlock != null)
                 prevFreeBlock.setNextLogicalBlock(freeBlock);
             else
@@ -90,7 +119,7 @@ public class FileSystemLinked implements FileSystem {
         Block currentBlock = startBlock;
         String fileContent = new String();
         while(currentBlock != null) {
-            byte[] subArray = currentBlock.getContent();
+            byte[] subArray = disk.read(currentBlock);
             String contentForThisBlock = new String(subArray);
             fileContent = fileContent.concat(contentForThisBlock);
             currentBlock = currentBlock.getNextLogicalBlock();

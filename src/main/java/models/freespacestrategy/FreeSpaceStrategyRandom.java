@@ -33,5 +33,4 @@ public class FreeSpaceStrategyRandom implements FreeSpaceStrategy {
         freeBlocksList.remove(block);
         return block;
     }
-
 }

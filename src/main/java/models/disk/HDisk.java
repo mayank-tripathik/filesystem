@@ -19,5 +19,6 @@ public class HDisk extends Disk {
     @Override
     public void write(Block block, byte[] content) {
         block.setContent(content);
+        block.setFree(false);
     }
 }

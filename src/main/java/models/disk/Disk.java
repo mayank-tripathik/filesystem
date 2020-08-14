@@ -1,5 +1,7 @@
 package models.disk;
 
+import java.util.List;
+
 import models.Block;
 
 public abstract class Disk {
@@ -22,7 +24,8 @@ public abstract class Disk {
     }
 
     public int getNoOfBlocks() {
-        return noOfBlocks;
+        return 10;
+        //return noOfBlocks;
     }
 
     private int getNumberofBlocks(){
@@ -30,6 +33,6 @@ public abstract class Disk {
         return (memorySizeinBytes/blockSizeInBytes);
     }
 
-    abstract byte[] read(Block block);
-    abstract void write(Block block, byte[] content);
+    abstract public byte[] read(Block block);
+    abstract public void write(Block block, byte[] content);
 }

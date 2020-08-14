@@ -3,9 +3,9 @@ package models;
 public class Block {
     private static int idCounter = 0;
     private int id;
-    Block nextLogicalBlock;
-    byte[] content;
-    boolean isFree;
+    private Block nextLogicalBlock;
+    private byte[] content;
+    private boolean isFree;
 
     public Block() {
         idCounter++;
@@ -50,6 +50,6 @@ public class Block {
             contents = new String(content);
         }
         String text = (isFree) ? "FREE" : "OCCUPIED";
-        return text;
+        return contents + ":" + text;
     }
 }
