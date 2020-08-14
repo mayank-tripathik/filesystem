@@ -3,7 +3,7 @@ package models;
 public class File {
     private int id;
     private String name;
-    int startBlockId;
+    Block startBlock;
     long totalSizeInBytes;
     FileMetadata metadata;
 
@@ -15,12 +15,12 @@ public class File {
         this.name = name;
     }
 
-    public int getStartBlockId() {
-        return startBlockId;
+    public Block getStartBlock() {
+        return startBlock;
     }
 
-    public void setStartBlockId(int startBlockId) {
-        this.startBlockId = startBlockId;
+    public void setStartBlock(Block startBlock) {
+        this.startBlock = startBlock;
     }
 
     public long getTotalSizeInBytes() {

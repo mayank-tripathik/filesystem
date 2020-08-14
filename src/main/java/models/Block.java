@@ -49,6 +49,7 @@ public class Block {
         if(content != null){
             contents = new String(content);
         }
-        return this.id + contents;
+        String text = (isFree) ? "FREE" : "OCCUPIED";
+        return text;
     }
 }
