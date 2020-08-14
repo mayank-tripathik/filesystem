@@ -32,6 +32,6 @@ There are many many improvements that can be incorporated :
   - Making FreeSpaceStrategyRandom more faster as right now it is uing linked list to keep track of free blocks 
   - File model can be improved more
 
-![FileSystem Diagram](/images/filesystem.png)
+![FileSystem Diagram](filesystem.png)
 
 
